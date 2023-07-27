@@ -1,0 +1,18 @@
+Penjelasan Series Pembelajaran Laravel 7
+
+
+# Installasi Composer, Laravel & Valet.
+# Routing = memetakkan URL ke fungsi fungsi dalam Controller.
+    {{  }} = memanggil passing data tetapi tidak bisa passing html.
+    {!!  !!} = memanggil passing data dan bisa melakukan passing html.
+    {!! nl2br !!} = akan mengenali jika ada text dengan baris baru maka akan diberi <br> secara otomatis.
+
+    ~ Asset, kita bisa memberikan yield pada title, head, content, script.
+    ~ Active, Request $request sama saja dengan request()
+        request()->fullUrl = akan memanggil full url nya yaitu http://127.0.0.1:8000/contact
+        request()->path = akan memanggil pathnya saja yaitu contact
+        request()->is('contact') ? '' : '' = akan mengecek apakah dia adalah page contact.
+    ~ Controller, controller invokable digunakan jika tidak ada method sama sekali, sehingga di dalam routenya kita bisa memanggil langsung controllernya.
+        misalkan HomeController
+        create : php artisan make:controller ProvisionServer --invokable
+    ~ Route Wild Card, url berupa slug agar unik & web akan sangat power.
