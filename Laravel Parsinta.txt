@@ -16,3 +16,43 @@ Penjelasan Series Pembelajaran Laravel 7
         misalkan HomeController
         create : php artisan make:controller ProvisionServer --invokable
     ~ Route Wild Card, url berupa slug agar unik & web akan sangat power.
+# Database
+    jika ingin setting .env ada file database ada di config > database.php
+    php artisan make:migration create_posts_table
+    ~ Eloquent, fitur dalam laravel / ORM (Object-Relational-Mapping) untuk berinteraksi dengan database (Model).
+        firstOrFail() jika page tidak ada maka akan ke 404
+        jika model adalah Kantor dan db yang kita buat adalah kantor juga kita bisa menghubungkannya secara manual dengan protected $table = 'kantor';
+    ~ Route Model Binding = mengikat model Eloquent langsung ke route nya
+        /posts/{slug} kita akan mengambil data berdasarkan slug.
+        /posts/{post} kita akan mengambil data berdasarkan id. Di model kita lakukan Post $post.
+            agar tidak berdasarkan id buat method di modelnya getRouteKeyName dengan melakukan return 'slug'.
+            maka {post} tidak akan berdasarkan id tapi akan berdasarkan Slug.
+        /posts/{post:slug} kita akan mengambil data dari post berdasarkan slug.
+    ~ Migration, membuat table menggunakan laravel.
+        php artisan make:migration create_posts_table
+        php artisan migrate                                         = menambahkan migrasi table ke db.
+        php artisan migrate:rollback                                = akan menarik semua migrasi tablenya.
+        php artisan make:migration add_hash_to_posts_table          = menyisipkan kolom baru ke table yang diinginkan
+            $table->string('hash')->after('title')->nullable();     = menambahkan kolom baru setelah title
+            $table->dropColumn('hash')                              = menghapus kolom hash
+    ~ Factory, membuat data palsu dengan menggunakan faker.
+    ~ Tinker, alat interaktif berbasis command-line yang disediakan oleh Laravel.
+        php artisan Tinker
+    ~ Pagination, Str::limit($post->body, 100) memberikan limit pada text.
+        jika get() adalah Object.
+        jika all() adalah Array.
+        menampilkan string hanya sedikit bisa menggunakan {{ Str::limit($post->body, 100, '.') }}
+        jika ingin melimit post pemanggilan di controllernya bisa menggunakan take(2).
+        jika melakukan paginate(2) maka get() tidak akan bisa dipakai.
+        karena perbedaannya paginate membagi data menjadi beberapa page,  sedangkan get() menampilkan semuanya secara langsung.
+        Untuk setting paginator ke bootstrap, tambahkan code Paginator::useBootstrap(); di AppServiceProvider
+            Post::paginate(2) atau Post::simplePaginate(2);
+            {{ $posts->links }}
+    ~ Create a New Data = https://laravel.com/docs/10.x/controllers
+        Jika create data itu seharusnya sebelum slug, karena jika tidak maka akan mengalami 404.
+            Merubah title
+                <title>{{ $title ?? 'Laravel Project' }}</title>
+                @extends('layouts.app', ['title' => 'The Title'])
+        Kita bisa menambahkan data baru dengan cara membuat object baru yaitu $post = new Post;
+        $post akan mendefinisikan title, slug, body kemudian kita save() dan akan tersimpan di database.
+        @forelse itu sama saja dengan foreach namun memiliki kondisi jika tidak ada data yg diloopingnya.
