@@ -56,3 +56,21 @@ Penjelasan Series Pembelajaran Laravel 7
         Kita bisa menambahkan data baru dengan cara membuat object baru yaitu $post = new Post;
         $post akan mendefinisikan title, slug, body kemudian kita save() dan akan tersimpan di database.
         @forelse itu sama saja dengan foreach namun memiliki kondisi jika tidak ada data yg diloopingnya.
+    ~ Guarded & Fillable
+        $guarded = membuat artibut tersebut tidak bisa diisikan kecuali selain dari atribut itu.
+            *bisa saja jika hanya menggunakan guarded ada user yang mencoba mengakses, atau menginputkan data dengan id yang diinputkan. Makannya solusinya dengan fillable
+        $fillable = artibut itu harus diisikan, selain dari artibutnya data tidak akan diterima.
+    ~ Validation = dokumentasi https://laravel.com/docs/10.x/validation
+    ~ Session Flash, (Pesan notifikasi ketika berhasil create new Post / Membuat Alert)
+    ~ Update Data, jika ingin melakukan update ada Put & Patch.
+        Put = kita akan melakukan update semuanya.
+        Patch = kita akan melakukan update pada field tertentu saja.
+    ~ Delete Data, melakukan delete dengan menerapkan model dari bootstrap.
+    ~ Relasi Dasar
+        Di dalam Category posts{ hasMany(Post::class) } - dalam 1 kategory bisa mempunyai banyak postingan.
+        Di dalam Post category{ belongsTo(Category::class) } - dalam 1 post hanya bisa memiliki 1 category.
+
+        secara default jika kita di dalam table post menambahkan category_id maka secara otomatis akan mengarah kesana.
+        tapi jika kita menambahnya bukan category_id tapi misalkan subject maka kita harus memberikan penanda bahwa subject sebagai relasi antar tabelnya.
+            sehingga, category{ belongsTo(Category::class, 'subject') }
+

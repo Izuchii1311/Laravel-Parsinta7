@@ -18,6 +18,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
+            'category_id' => mt_rand(1,4),
             'title' => $this->faker->sentence(),
             'slug' => Str::slug($this->faker->sentence()),
             'body' => $this->faker->paragraphs(10, true), // Perhatikan penambahan argument true untuk menggabungkan paragraf menjadi satu string.

@@ -31,13 +31,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // Post sebagai Object Baru
-        $post = new Post;
-        $post->title = $request->title;
-        $post->slug = Str::slug($request->title);
-        $post->body = $request->body;
+        $validatedData = $request->validate([
+            'title' => 'required|min:3|max:35',
+            'body' => 'required'
+        ]);
 
-        $post->save();
+        $validatedData['slug'] = Str::slug($request->title);
+
+        Post::create($validatedData);
+
+        session()->flash('success', 'Postingan berhasil dibuat.');
+        session()->flash('error', 'Postingan gagal dibuat.');
+
         return redirect('/posts');
     }
 
@@ -54,7 +59,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -62,7 +67,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|min:3|max:35',
+            'body' => 'required'
+        ]);
+
+        $post->update($validatedData);
+
+        session()->flash('success', 'Postingan berhasil diedit.');
+        session()->flash('error', 'Postingan gagal diedit.');
+
+        return redirect('/posts');
     }
 
     /**
@@ -70,6 +85,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        session()->flash('success', 'Postingan berhasil dihapus.');
+        session()->flash('error', 'Postingan gagal dihapus.');
+
+        return redirect('/posts');
     }
 }

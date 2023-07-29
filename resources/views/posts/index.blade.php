@@ -6,7 +6,11 @@
     <div class="container">
         <div class="d-flex justify-content-between">
             <div>
-                <h3>All Post</h3>
+                @isset ($category)
+                    <h4>Category : {{ $category->name }}</h4>
+                @else
+                    <h4>All Posts</h4>
+                @endisset
                 <hr>
             </div>
             <div>
@@ -24,9 +28,10 @@
                             </div>
                             <a href="/posts/{{ $post->slug }}">Read more...</a>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer d-flex justify-content-between">
                             Published on {{ $post->created_at->diffForHumans() }}
-                            {{ $post->created_at->format('d F, Y') }}
+                            {{-- {{ $post->created_at->format('d F, Y') }} --}}
+                            <a href="/posts/{{$post->slug}}/edit" class="btn btn-sm btn-warning text-white">Edit Data</a>
                         </div>
                     </div>
                 </div>
