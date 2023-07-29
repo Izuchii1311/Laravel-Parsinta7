@@ -6,11 +6,17 @@
     <div class="container">
         <div class="d-flex justify-content-between">
             <div>
-                @isset ($category)
+                @isset($category)
                     <h4>Category : {{ $category->name }}</h4>
-                @else
-                    <h4>All Posts</h4>
                 @endisset
+
+                @isset($tag)
+                    <h4>Tag : {{ $tag->name }}</h4>
+                @endisset
+
+                @if (!isset($tag) && !isset($category))
+                    <h4>All Posts</h4>
+                @endif
                 <hr>
             </div>
             <div>
@@ -31,7 +37,8 @@
                         <div class="card-footer d-flex justify-content-between">
                             Published on {{ $post->created_at->diffForHumans() }}
                             {{-- {{ $post->created_at->format('d F, Y') }} --}}
-                            <a href="/posts/{{$post->slug}}/edit" class="btn btn-sm btn-warning text-white">Edit Data</a>
+                            <a href="/posts/{{ $post->slug }}/edit" class="btn btn-sm btn-warning text-white">Edit
+                                Data</a>
                         </div>
                     </div>
                 </div>

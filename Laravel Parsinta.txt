@@ -74,3 +74,35 @@ Penjelasan Series Pembelajaran Laravel 7
         tapi jika kita menambahnya bukan category_id tapi misalkan subject maka kita harus memberikan penanda bahwa subject sebagai relasi antar tabelnya.
             sehingga, category{ belongsTo(Category::class, 'subject') }
 
+        # One to Many & One to One
+            Post                                Category
+            - id                                - id
+            - category_id                       - name
+            - title                             - slug
+            - slug
+            - body
+
+            Penjelasan :
+                Category hasMany Post (1 Category pasti memili banyak Post).
+                Post belongsTo Category (1 Post pasti memiliki 1 Category).
+
+                *belongsTo itu sebagai ForeignKey dimana akan berfungsi untuk menghubungkan ke tabel lain.
+                *relasi ini memerlukan ForeignKey di dalam table sama.
+
+        # Many to Many
+            Post                                Tag                                 Post_Tag
+            - id                                - id                                - post_id
+            - category_id                       - name                              - tag_id
+            - title                             - slug
+            - slug
+            - body
+
+            Penjelasan :
+                Post belongsToMany Tag (banyak Post bisa memiliki banyak Tag).
+                Tag belongsToMany Post (banyak Tag bisa juga memiliki banyak Post).
+
+                *post_id & tag_id itu sebagai foreignId, namun kita harus berikan constrained('posts') / ('tags')
+                    karena agar kita menentukan bahwa post_id ini milik table Post.
+                *kita juga bisa menjadikan post_id & tag_id sebagai primary, agar lebih menandai jika post_id itu milik posts.
+                *relasi many many pasti ada 3 table, dan 1 table nya pasti sebagai pivot table / penghubung antar table.
+                *relasi ini memerlukan ForeignKey di dalam table terpisah.
