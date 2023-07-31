@@ -52,7 +52,7 @@ class PostController extends Controller
         $validatedData['slug'] = Str::slug($request->title);
         $validatedData['category_id'] = request('category');
 
-        $post = Post::create($validatedData);
+        $post = auth()->user()->posts()->create($validatedData);
 
         // menambahkan post sekalian memasukkan request dari id tags yang diterima
         $post->tags()->attach(request('tags'));
@@ -109,12 +109,18 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->tags()->detach();
-        $post->delete();
+        if (auth()->user()->is($post->author)) {
+            $post->tags()->detach();
+            $post->delete();
 
-        session()->flash('success', 'Postingan berhasil dihapus.');
-        session()->flash('error', 'Postingan gagal dihapus.');
+            session()->flash('success', 'Postingan berhasil dihapus.');
+            session()->flash('error', 'Postingan gagal dihapus.');
 
-        return redirect('/posts');
+            return redirect('/posts');
+        } else {
+            session()->flash('success', 'Bukan Postingan anda tidak akan bisa dihapus.');
+
+            return redirect('/posts');
+        }
     }
 }

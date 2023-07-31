@@ -150,3 +150,9 @@ Penjelasan Series Pembelajaran Laravel 7
         spesifik memberikan seed php artisan db:seed --class=CategoriesTableSeeder
             ['Code', 'Design', 'Blog'] = array
             collect(['Code', 'Design', 'Blog']) = collection
+    ~ Login with username
+        cukup dengan membuat method dengan nama username() dan return 'username';
+        sebenarnya method ini ada di dalam AuthenticatesUsers tapi sebaiknya jangan dirubah.
+    ~ Membuat Relasi antar User dan Post agar bisa menampilkan author dari postingan yang dibuatnya.
+        Melakukan kondisi juga untuk delete @if(auth()->user()->id == $post->user_id)
+            jadi jika itu postingan miliknya biarkan user tersebut menghapus, tapi jika bukan miliknya jangan tampilkan button hapus

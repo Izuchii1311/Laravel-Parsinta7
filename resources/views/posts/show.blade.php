@@ -12,6 +12,9 @@
                     <a href="/tags/{{ $tag->slug }}">{{ $tag->name }}</a>
                 @endforeach
             </div>
+            <div class="text-secondary">
+                Pembuat {{ $post->author->name }}
+            </div>
             <hr>
             <p>{{ $post->body }}</p>
 
@@ -30,7 +33,7 @@
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Ingin menghapus Data?</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        @auth
+                        @if(auth()->user()->id == $post->user_id)
                             <div class="modal-body">
                                 <form action="/posts/{{ $post->slug }}/delete" method="post">
                                     @csrf
@@ -42,7 +45,7 @@
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </div>
                             </form>
-                        @endauth
+                        @endif
                     </div>
                 </div>
             </div>
