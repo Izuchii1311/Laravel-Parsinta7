@@ -143,3 +143,10 @@ Penjelasan Series Pembelajaran Laravel 7
             jika ingin routenya tidak ingin ada middleware bisa dengan cara ->withoutMiddleware('auth')
             karena routenya sama yaitu posts bisa saja menggunakan prefix('posts')
             maka url di dalam groupnya tidak memerlukan posts lagi, cukup /create atau /{post:slug}/edit.
+    ~ Modifikasi Field
+        menambahkan username di table user.
+        menambahkan relasi foreignId('user_id') di post
+        membuat seeder baru php artisan make:seed CategoriesTableSeeder
+        spesifik memberikan seed php artisan db:seed --class=CategoriesTableSeeder
+            ['Code', 'Design', 'Blog'] = array
+            collect(['Code', 'Design', 'Blog']) = collection
