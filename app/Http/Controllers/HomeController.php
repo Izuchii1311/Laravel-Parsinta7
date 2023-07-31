@@ -7,11 +7,22 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Create a new controller instance.
+     *
+     * @return void
      */
-    public function __invoke(Request $request)
+    public function __construct()
     {
-        $name = "Izuchii";
-        return view('home', compact('name'));
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
     }
 }

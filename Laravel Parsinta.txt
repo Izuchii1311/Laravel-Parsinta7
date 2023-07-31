@@ -121,3 +121,25 @@ Penjelasan Series Pembelajaran Laravel 7
             *detach = biasanya berkaitan dengan relasi many to many.
                 $post->tags()->detach();
                 agar menghapus data dari tabel pivotnya karena relasi dari postnya akan dihapus.
+
+
+#Authentication (aplikasi_baru)
+    ~ laravel ui
+        Installasi : composer require laravel/ui --dev
+                     php artisan ui bootstrap --auth
+                     npm install
+                     npm run dev
+        Help : php artisan help ui
+               php artisan route list
+    ~ route name = memberikan nama pada routenya ->name('posts.index')
+        kelebihannya agar menampilkan error jika route salah & jika route diganti kita tidak perlu menulis ulang.
+    ~ middleware = memberikan __contruct di post controller agar yang bisa melakukan crud hanya user yang sudah login, dan menggunakan except(['index']) sebagai pengecualian jika method index bisa diakses tanpa login.
+        @if(Auth::check()) = melakukan pengecekan pada user apakah sudah login atau belum, tetapi dalam bentuk condition.
+        @auth              = sama saja melakukan pengecekan pada user apakah sudah login atau belum.
+        @can('admin')      = menampilkan bagiannya dimana yang bisa melakukan hanya admin
+
+        tidak akan, menggunakan method __contruct dan middleware('auth') tetapi akan menggunakan route group
+        Route::middleware('auth')->group(function() {});
+            jika ingin routenya tidak ingin ada middleware bisa dengan cara ->withoutMiddleware('auth')
+            karena routenya sama yaitu posts bisa saja menggunakan prefix('posts')
+            maka url di dalam groupnya tidak memerlukan posts lagi, cukup /create atau /{post:slug}/edit.

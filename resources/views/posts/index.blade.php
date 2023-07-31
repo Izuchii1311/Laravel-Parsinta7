@@ -20,8 +20,15 @@
                 <hr>
             </div>
             <div>
-                <a href="/posts/create" class="btn btn-primary">Add New Post +</a>
+                {{-- @can() --}}
+                @if (Auth::check())
+                    <a href="{{ route('posts.create') }}" class="btn btn-primary">Add New Post +</a>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-primary">Login to create a new Post</a>
+                @endif
+                {{-- @endcan --}}
             </div>
+
         </div>
         <div class="row">
             @forelse ($posts as $post)
@@ -36,9 +43,9 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             Published on {{ $post->created_at->diffForHumans() }}
-                            {{-- {{ $post->created_at->format('d F, Y') }} --}}
-                            <a href="/posts/{{ $post->slug }}/edit" class="btn btn-sm btn-warning text-white">Edit
-                                Data</a>
+                            @auth
+                            <a href="/posts/{{ $post->slug }}/edit" class="btn btn-sm btn-warning text-white">Edit Data</a>
+                            @endauth
                         </div>
                     </div>
                 </div>

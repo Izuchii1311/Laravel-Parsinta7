@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\HomeController;
@@ -17,24 +18,17 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-# Return View
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-# Return View if not call a controller
-// Route::view('/', 'welcome');
-
-Route::get('/', HomeController::class);
-
 // Posts
-Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/create', [PostController::class, 'create']);
-Route::post('/posts/store', [PostController::class, 'store']);
-Route::get('/posts/{post:slug}', [PostController::class, 'show']);
-Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit']);
-Route::patch('/posts/{post:slug}/edit', [PostController::class, 'update']);
-Route::delete('/posts/{post:slug}/delete', [PostController::class, 'destroy']);
+Route::prefix('posts')->middleware('auth')->group(function() {
+    Route::get('/', [PostController::class, 'index'])->name('posts.index')->withoutMiddleware('auth');
+    Route::get('/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/store', [PostController::class, 'store']);
+    Route::get('/{post:slug}', [PostController::class, 'show'])->withoutMiddleware('auth');
+    Route::get('/{post:slug}/edit', [PostController::class, 'edit']);
+    Route::patch('/{post:slug}/edit', [PostController::class, 'update']);
+    Route::delete('/{post:slug}/delete', [PostController::class, 'destroy']);
+});
+
 
 // Categories
 Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
@@ -44,4 +38,6 @@ Route::get('/tags/{tag:slug}', [TagController::class, 'show']);
 
 Route::view('/contact', 'contact');
 Route::view('/about', 'about');
-Route::view('/login', 'login');
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
