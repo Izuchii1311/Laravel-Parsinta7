@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -23,7 +25,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create', [
+            "post" => new Post(),
+            "categories" => Category::get(),
+            "tags" => Tag::get(),
+        ]);
     }
 
     /**
@@ -33,12 +39,18 @@ class PostController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|min:3|max:35',
-            'body' => 'required'
+            'body' => 'required',
+            'category' => 'required',
+            'tags' => 'array|required'
         ]);
 
         $validatedData['slug'] = Str::slug($request->title);
+        $validatedData['category_id'] = request('category');
 
-        Post::create($validatedData);
+        $post = Post::create($validatedData);
+
+        // menambahkan post sekalian memasukkan request dari id tags yang diterima
+        $post->tags()->attach(request('tags'));
 
         session()->flash('success', 'Postingan berhasil dibuat.');
         session()->flash('error', 'Postingan gagal dibuat.');
@@ -59,7 +71,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        return view('posts.edit', [
+            'post' => $post,
+            'categories' => Category::get(),
+            'tags' => Tag::get()
+        ]);
     }
 
     /**
@@ -72,6 +88,9 @@ class PostController extends Controller
             'body' => 'required'
         ]);
 
+        $validatedData['category_id'] = request('category');
+
+        $post->tags()->sync(request('tags'));
         $post->update($validatedData);
 
         session()->flash('success', 'Postingan berhasil diedit.');
@@ -85,6 +104,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->detach();
         $post->delete();
 
         session()->flash('success', 'Postingan berhasil dihapus.');

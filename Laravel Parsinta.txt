@@ -104,5 +104,20 @@ Penjelasan Series Pembelajaran Laravel 7
                 *post_id & tag_id itu sebagai foreignId, namun kita harus berikan constrained('posts') / ('tags')
                     karena agar kita menentukan bahwa post_id ini milik table Post.
                 *kita juga bisa menjadikan post_id & tag_id sebagai primary, agar lebih menandai jika post_id itu milik posts.
-                *relasi many many pasti ada 3 table, dan 1 table nya pasti sebagai pivot table / penghubung antar table.
+                *relasi many many pasti ada 3 table, dan 1 table nya pasti sebagai pivot table / penghubung antar table, pembuatan table pivot harus terurut secara asc.
                 *relasi ini memerlukan ForeignKey di dalam table terpisah.
+    ~ Create & Edit data with tag
+        kita akan bisa memilih kategory dari post yang akan kita buat.
+        kita akan membuat tags yang diterima berupa array ke dalam post. dengan memberikan array di name input
+            name="tags[]"
+            *attach = biasanya berkaitan dengan relasi many to many.
+                $post->tags()->attach(request('tags'));
+                kita akan menambahkan permintaan yang ditangkap dari tags ke dalam postnya / menambahkan data ke tabel pivotnya sebagai penghubung 2 table.
+            sedangkan detach akan menghapusnya.
+        Akan menggunakan library select2.org agar user bisa melakukan multiple atau memilih lebih daru 1 tag.
+            *sync = biasanya berkaitan dengan relasi many to many.
+                $post->tags()sync(request('tags'));
+                digunakan untuk menyamakan data dari kedua table nya, menyamakan kalo si table pivot ini sama tidak dengan terhubungnya table post & tag.
+            *detach = biasanya berkaitan dengan relasi many to many.
+                $post->tags()->detach();
+                agar menghapus data dari tabel pivotnya karena relasi dari postnya akan dihapus.
