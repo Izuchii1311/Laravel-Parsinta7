@@ -20,10 +20,13 @@
 
             <a href="/posts" class="btn btn-primary me-2">Kembali</a>
 
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Delete
-            </button>
+            {{-- jika usernya adalah dia maka hanya dia yang bisa menghapus postingannya. --}}
+            @can('delete', $post)
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Delete
+                </button>
+            @endcan
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -33,19 +36,17 @@
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Ingin menghapus Data?</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        @if(auth()->user()->id == $post->user_id)
-                            <div class="modal-body">
-                                <form action="/posts/{{ $post->slug }}/delete" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <p>Data ini akan dihapus secara permanen. Apakah Anda yakin ingin menghapus datanya?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </div>
-                            </form>
-                        @endif
+                        <div class="modal-body">
+                            <form action="/posts/{{ $post->slug }}/delete" method="post">
+                                @csrf
+                                @method('delete')
+                                <p>Data ini akan dihapus secara permanen. Apakah Anda yakin ingin menghapus datanya?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

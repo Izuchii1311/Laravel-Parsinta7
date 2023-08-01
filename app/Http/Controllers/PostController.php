@@ -52,6 +52,7 @@ class PostController extends Controller
         $validatedData['slug'] = Str::slug($request->title);
         $validatedData['category_id'] = request('category');
 
+        // menambahkan post berdasarkan id user yang login
         $post = auth()->user()->posts()->create($validatedData);
 
         // menambahkan post sekalian memasukkan request dari id tags yang diterima
@@ -88,6 +89,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // karena sudah membuat policies untuk membatasinya cukup dengan authorize
+        $this->authorize('update', $post);
         $validatedData = $request->validate([
             'title' => 'required|min:3|max:35',
             'body' => 'required'
@@ -109,18 +112,21 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (auth()->user()->is($post->author)) {
-            $post->tags()->detach();
-            $post->delete();
+        $this->authorize('delete', $post);
+        $post->tags()->detach();
+        $post->delete();
+        session()->flash('success', 'Postingan berhasil dihapus.');
+        return redirect('/posts');
 
-            session()->flash('success', 'Postingan berhasil dihapus.');
-            session()->flash('error', 'Postingan gagal dihapus.');
+        // if (auth()->user()->is($post->author)) {
+        //     $post->tags()->detach();
+        //     $post->delete();
 
-            return redirect('/posts');
-        } else {
-            session()->flash('success', 'Bukan Postingan anda tidak akan bisa dihapus.');
-
-            return redirect('/posts');
-        }
+        //     session()->flash('success', 'Postingan berhasil dihapus.');
+        //     return redirect('/posts');
+        // } else {
+        //     session()->flash('error', 'Postingan gagal dihapus.');
+        //     return redirect('/posts');
+        // }
     }
 }
