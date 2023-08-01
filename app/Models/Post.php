@@ -11,7 +11,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'category_id', 'slug', 'body'];
+    protected $fillable = ['title', 'thumbnail', 'category_id', 'slug', 'body'];
 
     public function category()
     {
@@ -26,5 +26,11 @@ class Post extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Take Image
+    public function getTakeImageAttribute()
+    {
+        return "/storage/" . $this->thumbnail;
     }
 }

@@ -11,9 +11,15 @@
                         Edit Data Dengan Judul : {{ $post->title }}
                     </div>
                     <div class="card-body">
-                        <form action="/posts/{{ $post->slug }}/edit" method="POST">
+                        <form action="/posts/{{ $post->slug }}/edit" method="POST" enctype="multipart/form-data">
                             @method('PATCH')
                             @csrf
+                            <div class="mb-3">
+                                <label for="thumbnail">Upload Image</label>
+                                <br>
+                                <input type="file" name="thumbnail" id="thumbnail">
+                            </div>
+
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror"

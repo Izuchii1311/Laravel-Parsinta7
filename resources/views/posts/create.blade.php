@@ -11,8 +11,18 @@
                         Tambah Data Baru
                     </div>
                     <div class="card-body">
-                        <form action="/posts/store" method="post">
+                        <form action="/posts/store" method="post" enctype="multipart/form-data">
                             @csrf
+                            <div class="mb-3">
+                                <label for="thumbnail">Upload Image</label>
+                                <br>
+                                <input type="file" name="thumbnail" id="thumbnail" class="form-control 
+                                @error ('thumbnail') is-invalid @enderror">
+                                @error('thumbnail')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            </div>
+
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror"

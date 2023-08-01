@@ -34,8 +34,12 @@
             @forelse ($posts as $post)
                 <div class="col-md-4">
                     <div class="card my-3">
-                        <div class="card-header">{{ $post->title }}</div>
+                        {{-- <img src="{{ asset("storage/" . $post->thumbnail) }}" class="card-img-top" alt=""> --}}
+                        @if($post->thumbnail)
+                            <img src="{{ $post->take_image }}" class="card-img-top" style="height: 300px; object-fit:cover;">
+                        @endif
                         <div class="card-body">
+                            <div class="card-title">{{ $post->title }}</div>
                             <div>
                                 {{ Str::limit($post->body, 100, '.') }}
                             </div>

@@ -160,3 +160,10 @@ Penjelasan Series Pembelajaran Laravel 7
         policy digunakan untuk mengatur otorisasi hak akses.
             php artisan make:policy PostPolicy -m "Post"
         PELAJARI KEMBALI ROLE & POLICY
+    ~ Upload Image
+        didalam form berikan enctype agar dapat menerima file
+        buka ke filesystem 'default' => env('FILESYSTEM_DISK', 'local'),
+        kemudian buka .env tambahkan FILESYSTEM_DISK=public
+        lalu di dalam controllernya kita gunakan method storeAs() dan juga exstension() atau dengan menggunakan store()
+            symbolic link dengan php artisan storage:link
+            membuat gambar menjadi attribute di model
