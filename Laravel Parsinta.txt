@@ -167,3 +167,17 @@ Penjelasan Series Pembelajaran Laravel 7
         lalu di dalam controllernya kita gunakan method storeAs() dan juga exstension() atau dengan menggunakan store()
             symbolic link dengan php artisan storage:link
             membuat gambar menjadi attribute di model
+    ~ Design Ulang Postnya
+        merubah sedikit designnya dan menambahkan tools gravatar untuk merubahh image menjadi gambar
+    ~ Eager Loading (N+1)
+        implementasi dengan menggunakan laravel debuggar
+            composer require barryvdh/laravel-debugbar --dev
+        mengatasinya dengan eager loading dengan menambahkan with()
+    ~ Searching
+        copy form search di bootstrap
+        php artisan vendor:pubish
+            16 / laravel-pagination
+            digunakan untuk mesetting view paginationnya
+
+        php artisan vendor:publish
+            13 / laravel-error

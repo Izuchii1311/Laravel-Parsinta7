@@ -44,6 +44,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function gravatar($size = 150)
+    {
+        return "https://www.gravatar.com/avatar/" . md5( strtolower( trim($this->email ) ) ) . "?d=mp&s=" . $size;
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);

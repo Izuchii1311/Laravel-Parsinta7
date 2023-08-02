@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -19,22 +20,23 @@ use App\Http\Controllers\CategoryController;
 */
 
 // Posts
+Route::get('/seacrh', [SearchController::class, 'post'])->name('search.posts');
+
 Route::prefix('posts')->middleware('auth')->group(function() {
     Route::get('/', [PostController::class, 'index'])->name('posts.index')->withoutMiddleware('auth');
     Route::get('/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/store', [PostController::class, 'store']);
-    Route::get('/{post:slug}', [PostController::class, 'show'])->withoutMiddleware('auth');
+    Route::get('/{post:slug}', [PostController::class, 'show'])->withoutMiddleware('auth')->name('posts.show');
     Route::get('/{post:slug}/edit', [PostController::class, 'edit']);
     Route::patch('/{post:slug}/edit', [PostController::class, 'update']);
     Route::delete('/{post:slug}/delete', [PostController::class, 'destroy']);
 });
 
-
 // Categories
-Route::get('/categories/{category:slug}', [CategoryController::class, 'show']);
+Route::get('/categories/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
 
 // Tags
-Route::get('/tags/{tag:slug}', [TagController::class, 'show']);
+Route::get('/tags/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
 
 Route::view('/contact', 'contact');
 Route::view('/about', 'about');

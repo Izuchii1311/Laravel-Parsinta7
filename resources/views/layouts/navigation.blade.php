@@ -16,13 +16,20 @@
                         href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('posts*') ? 'active' : '' }}" href="{{ route('posts.index') }}">Posts</a>
+                    <a class="nav-link {{ request()->is('posts*') ? 'active' : '' }}"
+                        href="{{ route('posts.index') }}">Posts</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('contact') ? 'active' : '' }}" href="/contact">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <form class="d-flex" role="search" action="{{ route('search.posts') }}" method="get">
+                        <input name="cari" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
                 </li>
             </ul>
 
